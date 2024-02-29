@@ -8,8 +8,6 @@ public static class DependencyInjection
             configuration.GetConnectionString("DefaultConnection")!
         );
 
-        services.AddScoped<IConnectionFactory, ConnectionFactory>();
-
         services.AddScoped<IClienteRepository, ClienteRepository>();
         services.AddScoped<ITransacaoRepository, TransacaoRepository>();
     }

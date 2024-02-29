@@ -1,24 +1,17 @@
 ﻿namespace Application.Commands;
 
-public sealed class CreateTransacaoCommandHandler(IConnectionFactory connectionFactory,
+public sealed class CreateTransacaoCommandHandler(NpgsqlConnection connection,
                                                     IClienteRepository clienteRepository,
                                                     ITransacaoRepository transacaoRepository) : IRequestHandler<CreateTransacaoCommand, CreateTransacaoCommandViewModel>
 {
-    private readonly IConnectionFactory _connectionFactory = connectionFactory;
     private readonly IClienteRepository _clienteRepository = clienteRepository;
     private readonly ITransacaoRepository _transacaoRepository = transacaoRepository;
 
     public async ValueTask<CreateTransacaoCommandViewModel> Handle(CreateTransacaoCommand request, CancellationToken cancellationToken)
     {
-        await using var connection = _connectionFactory.CreateConnection();
-        connection.Open();
+        await connection.OpenAsync(cancellationToken);
 
         // using var transaction = await connection.BeginTransactionAsync(cancellationToken);
-
-        var cliente = _clienteRepository.GetCliente(request.Id, connection);
-
-        if (cliente.Id == 0)
-            return new CreateTransacaoCommandViewModel(OperationResult.NotFound);
 
         _transacaoRepository.CreateTransacao(
                         request.Transacao.Valor,
@@ -37,7 +30,7 @@ public sealed class CreateTransacaoCommandHandler(IConnectionFactory connectionF
             return new CreateTransacaoCommandViewModel(OperationResult.Failed);
         }
 
-        cliente = _clienteRepository.GetCliente(request.Id, connection);
+        var cliente = _clienteRepository.GetCliente(request.Id, connection);
 
         // await transaction.CommitAsync(cancellationToken);
 

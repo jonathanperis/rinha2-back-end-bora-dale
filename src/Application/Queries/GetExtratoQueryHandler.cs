@@ -1,23 +1,17 @@
 ﻿namespace Application.Queries;
 
-public sealed class GetExtratoQueryHandler(IConnectionFactory connectionFactory,
+public sealed class GetExtratoQueryHandler(NpgsqlConnection connection,
                                              IClienteRepository clienteRepository,
                                              ITransacaoRepository transacaoRepository) : IRequestHandler<GetExtratoQuery, GetExtratoQueryViewModel>
 {
-    private readonly IConnectionFactory _connectionFactory = connectionFactory;
     private readonly IClienteRepository _clienteRepository = clienteRepository;
     private readonly ITransacaoRepository _transacaoRepository = transacaoRepository;
 
     public async ValueTask<GetExtratoQueryViewModel> Handle(GetExtratoQuery request, CancellationToken cancellationToken)
     {
-        await using var connection = _connectionFactory.CreateConnection();
-        connection.Open();
+        await connection.OpenAsync(cancellationToken);
 
         var saldo = _clienteRepository.GetSaldoTotal(request.Id, connection);
-
-        if (saldo.Id == 0)
-            return new GetExtratoQueryViewModel(OperationResult.NotFound);
-
         var ultimasTransacoes = _transacaoRepository.ListTransacao(request.Id, connection);
         
         return new GetExtratoQueryViewModel(OperationResult.Success, new ExtratoDto(saldo, ultimasTransacoes.ToList()));

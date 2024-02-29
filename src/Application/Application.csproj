@@ -10,6 +10,7 @@
 		<PackageReference Include="Mediator.Abstractions" Version="2.1.7" />
 		<PackageReference Include="Mediator.SourceGenerator " Version="2.1.7" />
 		<PackageReference Include="Npgsql" Version="8.0.2" />
+		<PackageReference Include="Npgsql.DependencyInjection" Version="8.0.2" />
 	</ItemGroup>
 
 </Project>

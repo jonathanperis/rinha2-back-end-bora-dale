@@ -2,8 +2,12 @@
 
 public static class DependencyInjection
 {
-    public static void AddInfrastructure(this IServiceCollection services)
+    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddNpgsqlDataSource(
+            configuration.GetConnectionString("DefaultConnection")!
+        );
+
         services.AddScoped<IConnectionFactory, ConnectionFactory>();
 
         services.AddScoped<IClienteRepository, ClienteRepository>();

@@ -5,9 +5,6 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 
- 		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
-        <EnableTrimAnalyzer>false</EnableTrimAnalyzer>
-
 		<!-- AOT Optimizations -->
         <PublishAot>true</PublishAot>
         <OptimizationPreference>Speed</OptimizationPreference>
@@ -16,11 +13,11 @@
 		<PublishTrimmed>true</PublishTrimmed>
 		<TrimMode>partial</TrimMode>		
         <PublishReadyToRun>true</PublishReadyToRun>
-        <PublishReadyToRunComposite>true</PublishReadyToRunComposite>
-        <SelfContained>true</SelfContained>
+ 		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
+        <EnableTrimAnalyzer>false</EnableTrimAnalyzer>
+        <TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
 
 		<!-- Extra Optimizations -->
-        <TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
         <DebuggerSupport>false</DebuggerSupport>
         <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
         <EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
@@ -30,19 +27,13 @@
         <MetadataUpdaterSupport>false</MetadataUpdaterSupport>
         <StackTraceSupport>false</StackTraceSupport>
         <UseSystemResourceKeys>true</UseSystemResourceKeys>
+        <PublishReadyToRunComposite>true</PublishReadyToRunComposite>
+        <SelfContained>true</SelfContained>
 
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>..\..</DockerfileContext>
 		<DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		  <PrivateAssets>all</PrivateAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Application\Application.csproj" />

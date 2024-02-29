@@ -17,7 +17,7 @@ internal sealed class ClienteRepository : IClienteRepository
     public SaldoDto GetSaldoTotal(int Id, NpgsqlConnection connection)
     {
         const string sql = @"
-                            SELECT ""Id"", ""SaldoInicial"" AS Total, ""Limite"" AS Limite, NOW() AS data_extrato
+                            SELECT ""SaldoInicial"" AS Total, ""Limite"" AS Limite, NOW() AS data_extrato
                             FROM public.""Clientes""
                             WHERE ""Id"" = @Id;
                             ";
